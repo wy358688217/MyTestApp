@@ -7,6 +7,13 @@
 //
 
 #import "SecondViewController.h"
+#import "TestDuckMainObject.h"
+#import "TestDuckModelObject.h"
+#import "TestMallarDuckObject.h"
+#import "DuckFlyWithNoWay.h"
+#import "DuckQuackWithSing.h"
+#import "DuckFlyWithRocketPower.h"
+#include "DuckQuackWithSpeak.h"
 
 @interface SecondViewController ()
 
@@ -14,27 +21,34 @@
 
 @implementation SecondViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     [_mTextlabel setText:[NSString stringWithFormat:@"%@",_mText ]];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark -代理方法
 -(void) passValue:(NSString *)value
 {
     _mText = value;
-    //[_mTextlabel setText:[NSString stringWithFormat:@"%@",value ]];
+    [_mTextlabel setText:[NSString stringWithFormat:@"%@",_mText ]];
+    NSLog(@"values:::%@",value);
+}
+
+-(void)passFlyValue:(NSString *)value
+{
+    [_mFlyTextTable setText:value];
     NSLog(@"values:::%@",value);
 }
 #pragma mark -代理方法end
-- (IBAction)onBack:(id)sender {
-    //[self dismissModalViewControllerAnimated:YES];
+
+- (IBAction)onBack:(id)sender
+{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -42,37 +56,34 @@
 {
     
     NSInteger _index = buttonIndex;
+
+    NSString *msg = nil;
     
-    //if(buttonIndex != [actionSheet cancelButtonIndex])
+    switch (_index)
     {
-        NSString *msg = nil;
-        
-        switch (_index) {
-            case 0:
-                msg = @"You can breathe easy, everything went OK.";
-                break;
-            case 1:
-                msg = @"What do you want?, everything went OK.";
-                break;
-            case 2:
-                msg = @"Why are you do that?, everything went OK.";
-                break;
-                
-            default:
-                msg = @"another, everything went OK.";
-                break;
-        }
-        
-   
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle:@"Something was done"
-                              message:msg
-                              delegate:self
-                              cancelButtonTitle:@"Phew!"
-                              otherButtonTitles:nil];
-        
-        [alert show];
+        case 0:
+            msg = @"You can breathe easy, everything went OK.";
+            break;
+        case 1:
+            msg = @"What do you want?, everything went OK.";
+            break;
+        case 2:
+            msg = @"Why are you do that?, everything went OK.";
+            break;
+            
+        default:
+            msg = @"another, everything went OK.";
+            break;
     }
+    
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle:@"Something was done"
+                          message:msg
+                          delegate:self
+                          cancelButtonTitle:@"Phew!"
+                          otherButtonTitles:nil];
+    
+    [alert show];
 }
 
 - (IBAction)onButonOne:(id)sender
@@ -88,16 +99,48 @@
 
 - (IBAction)onButtonTwo:(id)sender
 {
-    
+    mDuckMainObject = [[TestDuckModelObject alloc] init];
+    [mDuckMainObject display];
+    [mDuckMainObject setCallback:self];
+    [mDuckMainObject performFly];
+    [mDuckMainObject performQuack];
 }
 
 - (IBAction)onButtonThree:(id)sender
 {
-    
+    mDuckMainObject = [[TestMallarDuckObject alloc]init];
+    [mDuckMainObject display];
+    [mDuckMainObject setCallback:self];
+    [mDuckMainObject performFly];
+    [mDuckMainObject performQuack];
 }
 
 - (IBAction)onButtonFour:(id)sender
 {
-    
+    mDuckMainObject = [[TestMallarDuckObject alloc]init];
+    [mDuckMainObject display];
+    [mDuckMainObject setFlyInter:[[DuckFlyWithNoWay alloc] init]];
+    [mDuckMainObject setCallback:self];
+    [mDuckMainObject performFly];
+}
+
+- (IBAction)onButtonFive:(id)sender
+{
+    mDuckMainObject = [[TestMallarDuckObject alloc]init];
+    [mDuckMainObject display];
+    [mDuckMainObject setQuackInter:[[DuckQuackWithSing alloc]init]];
+    [mDuckMainObject setCallback:self];
+    [mDuckMainObject performQuack];
+}
+
+- (IBAction)onButtonSix:(id)sender
+{
+    mDuckMainObject = [[TestDuckModelObject alloc] init];
+    [mDuckMainObject display];
+    [mDuckMainObject setFlyInter:[[DuckFlyWithRocketPower alloc] init]];
+    [mDuckMainObject setQuackInter:[[DuckQuackWithSpeak alloc] init]];
+    [mDuckMainObject setCallback:self];
+    [mDuckMainObject performFly];
+    [mDuckMainObject performQuack];
 }
 @end

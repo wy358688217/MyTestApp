@@ -11,7 +11,9 @@
 
 @protocol SecondViewContrllerDelegete <NSObject>
 
--(void) passValue:(NSString *)value;
+-(void)passValue:(NSString *)value;
+
+-(void)passFlyValue:(NSString *)value;
 
 @end
 
@@ -27,13 +29,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *removeButton;
 @property (weak, nonatomic) IBOutlet UIButton *createButton;
 
-@property (nonatomic, assign)id <SecondViewContrllerDelegete> mDelegete;
-
+- (void)Action;
 - (IBAction)buttonChangeText:(id)sender;
 
 - (IBAction)buttonRemove:(id)sender;
 
 - (IBAction)buttonCreate:(id)sender;
+
+- (IBAction)onGotoCommand:(id)sender;
 
 - (IBAction)onNext:(id)sender;
 - (IBAction)onBack:(id)sender;

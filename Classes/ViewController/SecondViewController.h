@@ -8,14 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "MyTestViewController.h"
+@class TestDuckMainObject;
 
 @interface SecondViewController : UIViewController<UIActionSheetDelegate, SecondViewContrllerDelegete>
+{
+    TestDuckMainObject * mDuckMainObject;
+}
 @property (weak, nonatomic) IBOutlet UILabel *mTextlabel;
+@property (weak, nonatomic) IBOutlet UILabel *mFlyTextTable;
 @property (copy, nonatomic) NSString * mText;
 - (IBAction)onBack:(id)sender;
 - (IBAction)onButonOne:(id)sender;
 - (IBAction)onButtonTwo:(id)sender;
 - (IBAction)onButtonThree:(id)sender;
 - (IBAction)onButtonFour:(id)sender;
+- (IBAction)onButtonFive:(id)sender;
+- (IBAction)onButtonSix:(id)sender;
 
 @end

@@ -22,6 +22,8 @@
                       @"Dorin", @"Nori", @"Ori", @"Balin", @"Dwalin", @"Fili", @"Kili",
                       @"Oin", @"Gloin", @"Bifur", @"Bofur", @"Bombur", nil];
     mTableCellData = array;
+    UIApplication* _app = [UIApplication sharedApplication];
+    [_app setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
 }
 
 #pragma mark -

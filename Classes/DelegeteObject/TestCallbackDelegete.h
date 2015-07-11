@@ -15,6 +15,7 @@
 }
 
 - (void)handleEventObject;
+- (void)handleEventObjectWithVlaue:(NSString*)_value;
 
 - (void)setDelegateObject:(id)cbobject setBackFunctionName:(NSString *)selectorName;
 

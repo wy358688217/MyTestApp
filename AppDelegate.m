@@ -9,6 +9,14 @@
 #import "AppDelegate.h"
 #import "MyTestViewController.h"
 #import "TestDelegeteViewController.h"
+#import "RunsLogUtils.h"
+#import "ITTestView.h"
+
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
+#import "UncaughtExceptionHandler.h"
+#import "DurexKit.h"
 
 @interface AppDelegate ()
 
@@ -17,25 +25,28 @@
 @implementation AppDelegate
 
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
     
+    //setSafeKitLogType(SafeKitLogTypeInfo | SafeKitLogTypeWarning | SafeKitLogTypeError);
+    //抓取crash
+    NSSetUncaughtExceptionHandler(&HandleException);
+    InstallUncaughtExceptionHandler();
+    
+    //[Fabric with:@[CrashlyticsKit]];
+    
+    //[Crashlytics startWithAPIKey:@"9c1aa744bc1376fa16dd30cf11958d43fc5e5fff"];// aa2ed6fd539ce2168b06ff019af481c9f78f14a98f68ba36e376232e7d608741  aa2ed6fd539ce2168b06ff019af481c9f78f14a98f68ba36e376232e7d608741
+//    [[Crashlytics sharedInstance] setUserName:@"wy0012"];
+//    [[Crashlytics sharedInstance] setUserEmail:@"2037921944@qq.com"];
+//    [[Crashlytics sharedInstance] setUserIdentifier:@"Mr.Wang"];
+    //[[Crashlytics sharedInstance] crash];
+    
+    // Override point for customization after application launch.
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
-//    TestDelegeteViewController* _vc = [[TestDelegeteViewController alloc] init];
-//    
-//    self.window.rootViewController = _vc;
     
-//    UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:[MyTestViewController alloc]] ;
-//    self.window.rootViewController = navController;
-    
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    
-//    [[NSBundle mainBundle] loadNibNamed:@"TabBarController" owner:self options:nil];
-//    [self.window addSubview:_rootController.view];
-//    
-//    self.window.backgroundColor = [UIColor whiteColor];
-//    [self.window makeKeyAndVisible];
+//    ITTestView * testView = [[[NSBundle mainBundle]loadNibNamed:@"ITTestView" owner:nil options:nil]firstObject];
+//    [testView setFrame:CGRectMake(0, 20, 320, 30)];
+//    [self.rootController.view addSubview:testView];
     return YES;
 }
 
@@ -52,6 +63,8 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    // 切后台时检查日志文件大小
+    [RunsLogUtils checkLogFileSize];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

@@ -1,0 +1,84 @@
+//
+//  PrefixHeader.pch
+//  MyTestApp
+//
+//  Created by wy0012 on 15/7/2.
+//  Copyright (c) 2015年 wy0012. All rights reserved.
+//
+
+#ifndef MyTestApp_PrefixHeader_pch
+#define MyTestApp_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iPhone SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
+#import <CoreData/CoreData.h>
+#import <objc/message.h>
+#import "RunsLogUtils.h"
+#endif
+
+
+#define LIBRARYDIRECTORY_BYAPPENDPATH(appendPath) [[NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"Caches/%@", appendPath]]
+
+// 得到拉伸后的图片
+#define strechableImage(imageName,width,height) [[UIImage imageNamed:imageName] stretchableImageWithLeftCapWidth:width topCapHeight:height]
+
+// 存储数据库  text字段
+#define DBTEXT(X) ((X)?(X):([NSNull null]))
+
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+//用于block的弱引用
+#define WEAK_SELF_OBJCET_BLOCK(selfObject, weakObject) __weak __typeof(selfObject)weakObject = selfObject;
+#define WEAK_OBJCET_STRONG_POINT(weakSelf, strongSelf) __strong __typeof(weakSelf)strongSelf = weakSelf;
+#define WEAK_BLOCK_OBJECT(object) WEAK_SELF_OBJCET_BLOCK(object,weak_##object##_kaf9097uq54ni8);
+#define BLOCK_OBJECT(object) WEAK_OBJCET_STRONG_POINT(weak_##object##_kaf9097uq54ni8,weak_##object);
+
+//某段代码运行时间
+#define TICK   NSDate *startTime = [NSDate date]
+#define TOCK(timeName)   NSLog(@"%@ Time: %f", timeName,-[startTime timeIntervalSinceNow])
+
+#define strInt(i) [NSString stringWithFormat:@"%d",i]
+#define numberInt(i) [NSNumber numberWithInt:i]
+#define numberInt64(i) [NSNumber numberWithLongLong:i]
+
+//状态栏高度
+#define STATUS_BAR_HEIGHT 20
+//NavBar高度
+#define NAVIGATION_BAR_HEIGHT 44
+//状态栏 ＋ 导航栏 高度
+#define STATUS_AND_NAVIGATION_HEIGHT ((CONTENT_BEGIN_HEIGHT) + (NAVIGATION_BAR_HEIGHT))
+
+//屏幕 rect
+#define SCREEN_RECT ([UIScreen mainScreen].bounds)
+#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+#define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+//#define CONTENT_HEIGHT (SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT - STATUS_BAR_HEIGHT)
+
+//屏幕分辨率
+#define SCREEN_RESOLUTION (SCREEN_WIDTH * SCREEN_HEIGHT * ([UIScreen mainScreen].scale))
+
+//大于等于6.0的ios版本
+#define iOS6_OR_LATER ([UIDevice currentDevice].systemVersion.floatValue >= 6.0)
+//大于等于7.0的ios版本
+#define iOS7_OR_LATER ([UIDevice currentDevice].systemVersion.floatValue >= 7.0)
+//大于等于8.0的ios版本
+#define iOS8_OR_LATER ([UIDevice currentDevice].systemVersion.floatValue >= 8.0)
+
+//iOS6时，导航VC中view的起始高度
+#define CONTENT_BEGIN_HEIGHT (iOS7_OR_LATER ? STATUS_BAR_HEIGHT:0)
+//去掉默认导航栏的高度的 剩余高度
+#define CONTENT_HEIGHT (SCREEN_HEIGHT - CONTENT_BEGIN_HEIGHT - NAVIGATION_BAR_HEIGHT)
+//去掉状态栏高度
+#define CONTENT_NAV_HEIGHT (SCREEN_HEIGHT - CONTENT_BEGIN_HEIGHT)
+#endif

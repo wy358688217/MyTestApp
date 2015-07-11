@@ -11,11 +11,22 @@
 #import "ITTopSystemNotificationView.h"
 #import "TestDelegeteViewController.h"
 #import "SecondViewController.h"
+#import "TestRecevier.h"
+#import "TestInvoker.h"
+#import "TestCommands.h"
+#import "TestConcreteCommands.h"
+#import "DurexKit.h"
+#import "ITTestView.h"
+#define StarAniCount 29
+
 @interface MyTestViewController ()
 
 @end
 
 @implementation MyTestViewController
+{
+    //UIImageView * _starAniView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,9 +57,61 @@
 //    [self.navigationController setToolbarHidden:YES animated:YES];
     //self.tabBarController.tabBar.hidden = YES;
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
-    
+//    
+//    UIImageView * _imgview = [[UIImageView alloc] init];
+//    [self displayStarAnimation:1 withImageView:_imgview];
+//    [_imgview setFrame:CGRectMake(100, 100, 30, 50)];
+//    UIImageView * _imgview1 = [[UIImageView alloc] init];
+//    [self displayStarAnimation:50 withImageView:_imgview1];
+//    [_imgview1 setFrame:CGRectMake(150, 100, 30, 50)];
+//    UIImageView * _imgview11 = [[UIImageView alloc] init];
+//    [self displayStarAnimation:100 withImageView:_imgview11];
+//    [_imgview11 setFrame:CGRectMake(200, 100, 30, 50)];
+
+    setSafeKitLogType(SafeKitLogTypeInfo | SafeKitLogTypeWarning | SafeKitLogTypeError);
+//
    mInt = 0;
+    
+    ITTestView * testView = [[[NSBundle mainBundle]loadNibNamed:@"ITTestView" owner:nil options:nil]firstObject];
+    [testView setFrame:CGRectMake(0, 20, 320, 30)];
+    [self.view addSubview:testView];
+}
+
+- (void)displayStarAnimation:(NSInteger)_count withImageView:(UIImageView *)_starAniView
+{
+    if (_starAniView.isAnimating)
+    {
+        return;
+    }
+    
+    NSMutableArray * _aniArray = [[NSMutableArray alloc]initWithCapacity:StarAniCount];;
+    
+    for (int i = 0; i < StarAniCount; i++)
+    {
+        NSString * _str  = [NSString stringWithFormat:@"star_%d.png",i];
+        UIImage * _image = [UIImage imageNamed:_str];
+        [_aniArray addObject:_image];
+    }
+    
+    
+    [_starAniView setAnimationImages:_aniArray];
+    [_starAniView setAnimationDuration:6.3f];
+    [_starAniView setAnimationRepeatCount:_count];
+    [_starAniView startAnimating];
+    
+    [self.view addSubview:_starAniView];
+    
+    CGFloat _dt = _count * 7;
+    [self performSelector:@selector(removeStarAnimation:) withObject:_starAniView afterDelay:_dt];
+
+}
+
+- (void)removeStarAnimation:(UIImageView *)_imageView
+{
+    if (_imageView) {
+        [_imageView removeFromSuperview];
+        _imageView = nil;
+    }
 }
 static BOOL isHide = YES;
 - (BOOL)prefersStatusBarHidden
@@ -61,23 +124,14 @@ static BOOL isHide = YES;
     [_mpITTopSystemNotificationView uiConfigWithContent:@"变变变变变换换换" withDelayTime:10000.0f withColor:[UIColor yellowColor]];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)buttonChangeText:(id)sender
 {
+    
+    //常见异常1---不存在方法引用
+    [self performSelector:@selector(thisMthodDoesNotExist) withObject:nil];
+    return;
     mInt +=10;
     NSString * str0 = @"换换换";
     NSString * str =[NSString stringWithFormat:@"%d",mInt];
@@ -97,7 +151,16 @@ static BOOL isHide = YES;
 
 - (IBAction)buttonCreate:(id)sender
 {
-   
+//    UIImageView * _imgview = [[UIImageView alloc] init];
+//    [self displayStarAnimation:1 withImageView:_imgview];
+//    [_imgview setFrame:CGRectMake(100, 100, 30, 50)];
+//    UIImageView * _imgview1 = [[UIImageView alloc] init];
+//    [self displayStarAnimation:50 withImageView:_imgview1];
+//    [_imgview1 setFrame:CGRectMake(150, 100, 30, 50)];
+//    UIImageView * _imgview11 = [[UIImageView alloc] init];
+//    [self displayStarAnimation:100 withImageView:_imgview11];
+//    [_imgview11 setFrame:CGRectMake(200, 100, 30, 50)];
+//   
     if (_mpITTopSystemNotificationView == nil)
     {
         _mpITTopSystemNotificationView = [[ITTopSystemNotificationView alloc] init];
@@ -108,14 +171,34 @@ static BOOL isHide = YES;
 
         [_mpITTopSystemNotificationView show];
     }
+    FFLog(([NSString stringWithFormat:@"%d",1000]));
+    EXLog(([NSString stringWithFormat:@"%d",1000]));
+}
+
+- (void)Action
+{
+    [self buttonRemove:self];
+}
+
+- (IBAction)onGotoCommand:(id)sender
+{
+    //TestRecevier * _rece = [[TestRecevier alloc] init];
+    
+    TestCommands * _comm = [[TestConcreteCommands alloc] VcInit:self];
+    
+    TestInvoker  * _invo = [[TestInvoker alloc] init];
+    
+    [_invo setCommands:_comm];
+    
+    [_invo ExecuteCommand];
 }
 
 - (IBAction)onNext:(id)sender
 {
     SecondViewController * _vc = [[SecondViewController alloc]init];
-    self.mDelegete = _vc;
+    mDelegete = _vc;
     //[_vc passValue:@" "];
-    [self.mDelegete passValue:@"老子曰:日上竿头 真特马好热乎"];
+    [mDelegete passValue:@"老子曰:日上竿头 真特马好热乎"];
     [self presentViewController:_vc animated:YES completion:nil];
     // [self presentModalViewController:_vc animated:YES];
     //[self.navigationController pushViewController:_vc animated:YES];
@@ -123,6 +206,15 @@ static BOOL isHide = YES;
 
 - (IBAction)onBack:(id)sender
 {
+    NSMutableArray * _arr = [[NSMutableArray alloc] initWithCapacity:16];
+    int _count = [_arr count];
+    EXLog(([NSString stringWithFormat:@"_arr长度为:%d",_count ]));
+    FFLog(([NSString stringWithFormat:@"_arr长度为:%d",_count ]));
     //[self.navigationController pop
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
 @end

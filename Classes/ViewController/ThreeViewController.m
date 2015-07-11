@@ -99,6 +99,7 @@
 
 - (IBAction)onNext:(id)sender {
     PickerViewController * _picker =  [[PickerViewController alloc]init];
-    [self presentModalViewController:_picker animated:YES];
+//    [self presentModalViewController:_picker animated:YES];
+    [self.navigationController pushViewController:_picker animated:YES];
 }
 @end

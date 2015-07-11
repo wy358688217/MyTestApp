@@ -20,14 +20,10 @@
 
 
 @interface SystemNotifyTextObject : NSObject
-{
-    int mStartTime;
-    int mStopTime;
-    int mDisplayTime;
-}
-@property (nonatomic) int mStartTime;
-@property (nonatomic) int mEndTime;
-@property (nonatomic) int mDisplayTime;
-@property (nonatomic) int mStopTime;
+
+@property (nonatomic, assign) int mStartTime;
+@property (nonatomic, assign) int mEndTime;
+@property (nonatomic, assign) int mDisplayTime;
+@property (nonatomic, assign) int mStopTime;
 
 @end

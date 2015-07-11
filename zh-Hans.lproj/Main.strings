@@ -1,0 +1,15 @@
+
+/* Class = "UITabBarItem"; title = "滚动"; ObjectID = "BaW-DN-LkB"; */
+"BaW-DN-LkB.title" = "滚动";
+
+/* Class = "UITabBarItem"; title = "Dependent"; ObjectID = "BvD-jM-NY2"; */
+"BvD-jM-NY2.title" = "Dependent";
+
+/* Class = "UITabBarItem"; title = "Custom"; ObjectID = "IBb-dv-8JC"; */
+"IBb-dv-8JC.title" = "Custom";
+
+/* Class = "UITabBarItem"; title = "回调"; ObjectID = "qb2-Aw-Nh7"; */
+"qb2-Aw-Nh7.title" = "回调";
+
+/* Class = "UITabBarItem"; title = "Second"; ObjectID = "qef-yW-Yma"; */
+"qef-yW-Yma.title" = "Second";
